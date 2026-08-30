@@ -1,0 +1,35 @@
+<?php
+/**
+ * ############################################################
+ * #  BU DOSYA BİR ŞABLONDUR — İÇİNİ DOLDURMAYIN!             #
+ * ############################################################
+ *
+ * Bu dosyanın adı ".example" ile bittiği için uygulama onu HİÇ OKUMAZ.
+ * Buraya yazacağınız veritabanı parolası hiçbir işe yaramaz; dahası bu
+ * dosya depoda takiplidir, yani yazdığınız parola GitHub'a gönderilir.
+ *
+ * DOĞRU KULLANIM — iki adım:
+ *
+ *   1) Bu dosyayı aynı klasöre KOPYALAYIN ve kopyanın adını
+ *      ".example" olmadan "config.local.php" yapın:
+ *
+ *          config.local.php.example   ->   config.local.php
+ *
+ *   2) Aşağıdaki dört satırı KOPYADA doldurun. Bu dosyaya dokunmayın.
+ *
+ * config.local.php .gitignore içindedir: depoya gitmez ve canlıya alma
+ * (deploy) işlemi onu SİLMEZ — bir kez oluşturursunuz, kalıcıdır.
+ *
+ * cPanel'de veritabanı ve kullanıcı adı genellikle hesap adınızla
+ * öneklidir ("hesap_cy_queue"). MySQL kullanıcı adlarında 16 karakter
+ * sınırı vardır; cPanel uzun adları kısaltır, bu yüzden kullanıcı adı
+ * veritabanı adıyla AYNI OLMAYABİLİR — cPanel'de göründüğü gibi yazın.
+ *
+ * Not: APP_DEBUG'ı burada tanımlamanıza gerek yok. config.php onu sunucu
+ * adından türetir; canlı bir alan adında kendiliğinden kapalıdır.
+ */
+
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'cy_queue');
+define('DB_USER', 'veritabani_kullanicisi');
+define('DB_PASS', 'veritabani_parolasi');

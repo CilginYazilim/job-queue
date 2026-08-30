@@ -1,0 +1,34 @@
+# =====================================================================
+#  .gitignore – Git'in TAKİP ETMEYECEĞİ dosyalar
+#  cilginyazilim.com – Veritabanı Tabanlı İş Kuyruğu
+# ---------------------------------------------------------------------
+#  NOT: Bu bir ÖRNEK PROJEDİR. jQuery/Bootstrap dosyaları ve örnek
+#  veri bilerek repoya DAHİL EDİLMİŞTİR; projeyi indiren herkes hiçbir
+#  ek işlem yapmadan çalışan bir demo görsün diye.
+#
+#  bin/worker.php bir CLI betiğidir ve repoya DAHİLDİR; worker'ın
+#  ürettiği log dosyaları *.log kuralıyla zaten dışarıda kalır.
+#
+# =====================================================================
+
+# --- Yerel ortam ayarları (şifre içerebilir, ASLA paylaşmayın) -------
+.env
+system/config.local.php
+
+# --- Editör ve işletim sistemi artıkları ----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# --- Log ve geçici dosyalar -----------------------------------------
+*.log
+*.tmp
+*.bak
+
+# --- Bağımlılık klasörleri (bu projede kullanılmıyor) ---------------
+/vendor/
+/node_modules/

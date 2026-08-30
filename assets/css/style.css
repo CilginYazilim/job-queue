@@ -1,0 +1,458 @@
+/* ==================================================================
+ *  SAYFAYA ÖZEL STİLLER
+ *  cilginyazilim.com – Veritabanı Tabanlı İş Kuyruğu
+ * ------------------------------------------------------------------
+ *  DİKKAT: Genel marka stilleri "cilginyazilim.css" içindedir. Bu dosya
+ *  SADECE bu örneğe özgü bileşenleri barındırır (sayaç şeridi, durum
+ *  rozetleri, worker günlüğü, iş tabloları). Böylece tasarım kalıbını
+ *  başka bir projeye taşırken bu dosyayı götürmeniz gerekmez.
+ *
+ *  Yükleme sırası:  bootstrap → cilginyazilim → style
+ *
+ *  Renkler doğrudan yazılmaz; marka değişkenlerinden okunur.
+ * ================================================================== */
+
+.container { max-width: 1180px; }
+
+
+/* ------------------------------------------------------------------
+ *  1) ORTAK KÜÇÜK PARÇALAR
+ * ------------------------------------------------------------------ */
+.cy-hint {
+    font-size: .82rem;
+    color: var(--cy-text-muted);
+}
+
+.cy-hint code,
+.cy-card__footer code,
+.cy-detail code {
+    background: var(--cy-brand-100);
+    color: var(--cy-brand-600);
+    padding: .05rem .3rem;
+    border-radius: .3rem;
+    font-size: .85em;
+}
+
+.cy-section-title {
+    font-size: .78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--cy-text-muted);
+    margin: 0 0 .5rem;
+}
+
+.cy-muted { color: var(--cy-text-muted); }
+
+
+/* ------------------------------------------------------------------
+ *  2) SAYAÇ ŞERİDİ
+ * ------------------------------------------------------------------
+ *  Beş sayaç kuyruğun beş durumunu gösterir. "Bayat rezerve" özel bir
+ *  durumdur: sıfırdan büyükse bir sorun var demektir, bu yüzden
+ *  is-warn sınıfıyla kırmızıya döner.
+ * ------------------------------------------------------------------ */
+.cy-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: .75rem;
+    margin-bottom: 1.25rem;
+}
+
+.cy-stat {
+    background: var(--cy-surface-soft);
+    border: 1px solid var(--cy-border);
+    border-radius: var(--cy-radius);
+    padding: .85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+    border-left: 3px solid var(--cy-brand-600);
+}
+
+.cy-stat--ready    { border-left-color: var(--cy-success); }
+.cy-stat--delayed  { border-left-color: var(--cy-info); }
+.cy-stat--reserved { border-left-color: var(--cy-accent); }
+.cy-stat--stale    { border-left-color: var(--cy-text-muted); }
+.cy-stat--failed   { border-left-color: var(--cy-danger); }
+
+/* Bayat rezerve sıfırdan büyükse: kuyrukta kimsenin işlemediği iş var. */
+.cy-stat--stale.is-warn { border-left-color: var(--cy-warning); }
+.cy-stat--stale.is-warn .cy-stat__value { color: var(--cy-warning); }
+
+.cy-stat__value {
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--cy-text);
+    font-variant-numeric: tabular-nums;
+}
+
+.cy-stat__label {
+    font-size: .75rem;
+    color: var(--cy-text-muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+
+/* ------------------------------------------------------------------
+ *  3) PANELLER (kuyruğa ekle / worker)
+ * ------------------------------------------------------------------ */
+.cy-panel {
+    background: var(--cy-surface-soft);
+    border: 1px solid var(--cy-border);
+    border-radius: var(--cy-radius);
+    padding: .9rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.cy-panel:last-child { margin-bottom: 0; }
+
+.cy-panel__title {
+    font-size: .78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--cy-text-muted);
+    margin: 0 0 .7rem;
+}
+
+.cy-panel .form-label {
+    font-size: .75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--cy-text-muted);
+    margin-bottom: .25rem;
+}
+
+.cy-panel .form-control,
+.cy-panel .form-select {
+    background: var(--cy-surface);
+    color: var(--cy-text);
+    border-color: var(--cy-border);
+    min-height: 42px;             /* dokunma hedefi */
+}
+
+.cy-panel .form-control:focus,
+.cy-panel .form-select:focus {
+    border-color: var(--cy-brand-400);
+    box-shadow: 0 0 0 .2rem rgba(11, 92, 181, .15);
+}
+
+
+/* ------------------------------------------------------------------
+ *  4) WORKER DENETİMİ
+ * ------------------------------------------------------------------ */
+.cy-worker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: .8rem;
+}
+
+.cy-worker__info { flex: 1 1 320px; min-width: 0; }
+
+.cy-worker__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    align-items: center;
+}
+
+/* Otomatik mod anahtarı: onay kutusu ama düğme gibi görünür. */
+.cy-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    background: var(--cy-surface);
+    border: 1px solid var(--cy-border);
+    border-radius: var(--cy-radius-sm);
+    padding: .45rem .7rem;
+    font-size: .85rem;
+    cursor: pointer;
+    min-height: 42px;
+    margin: 0;
+}
+
+.cy-switch:hover { border-color: var(--cy-brand-400); }
+.cy-switch input { margin: 0; }
+
+
+/* ------------------------------------------------------------------
+ *  5) WORKER GÜNLÜĞÜ
+ * ------------------------------------------------------------------
+ *  Koyu zemin bilinçlidir: bu bir TERMİNAL çıktısıdır. Gerçek worker
+ *  aynı satırları konsola basar; ekrandaki günlük onun karşılığıdır.
+ * ------------------------------------------------------------------ */
+.cy-log {
+    background: #0b1220;
+    color: #d8e2f0;
+    border: 1px solid #16233a;
+    border-radius: var(--cy-radius-sm);
+    padding: .8rem 1rem;
+    margin: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .78rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 220px;
+    overflow: auto;
+}
+
+.cy-log--payload {
+    background: var(--cy-surface-soft);
+    color: var(--cy-text);
+    border-color: var(--cy-border);
+    max-height: 240px;
+}
+
+.cy-log--error {
+    background: rgba(220, 38, 38, .08);
+    color: var(--cy-danger);
+    border-color: rgba(220, 38, 38, .25);
+    max-height: 200px;
+}
+
+
+/* ------------------------------------------------------------------
+ *  6) İŞ TABLOLARI
+ * ------------------------------------------------------------------ */
+.cy-jobs tbody tr,
+.cy-failed tbody tr { cursor: pointer; }
+
+.cy-jobs tbody tr:focus-visible,
+.cy-failed tbody tr:focus-visible {
+    outline: 2px solid var(--cy-brand-400);
+    outline-offset: -2px;
+}
+
+.cy-id {
+    font-variant-numeric: tabular-nums;
+    color: var(--cy-text-muted);
+    font-size: .85rem;
+}
+
+.cy-type {
+    background: var(--cy-brand-100);
+    color: var(--cy-brand-600);
+    padding: .1rem .4rem;
+    border-radius: var(--cy-radius-sm);
+    font-size: .78rem;
+    white-space: nowrap;
+}
+
+.cy-attempts {
+    font-variant-numeric: tabular-nums;
+    font-size: .82rem;
+    color: var(--cy-text-muted);
+}
+
+.cy-attempts i { font-style: normal; opacity: .5; margin: 0 .05rem; }
+
+/* Son denemesine gelmiş iş: bir sonraki hata onu dead-letter'a atar. */
+.cy-attempts.is-last { color: var(--cy-warning); font-weight: 700; }
+
+/* Son denemede hata almış işi işaretleyen küçük nokta. */
+.cy-warn-dot {
+    display: inline-grid;
+    place-items: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(217, 119, 6, .18);
+    color: var(--cy-warning);
+    font-size: .7rem;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.cy-exception {
+    font-size: .78rem;
+    color: var(--cy-text-muted);
+    word-break: break-word;
+}
+
+.cy-empty-cell {
+    text-align: center;
+    color: var(--cy-text-muted);
+    font-size: .85rem;
+    padding: 1.5rem .5rem;
+}
+
+
+/* ------------------------------------------------------------------
+ *  7) DURUM ROZETLERİ
+ * ------------------------------------------------------------------
+ *  Renk TEK BAŞINA anlam taşımaz: her rozetin içinde durumu anlatan
+ *  METİN de vardır ("hazır", "işleniyor", "bayat rezerve").
+ * ------------------------------------------------------------------ */
+.cy-state {
+    display: inline-block;
+    padding: .15rem .55rem;
+    border-radius: var(--cy-radius-pill);
+    font-size: .76rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid transparent;
+}
+
+.cy-state--ready {
+    background: rgba(5, 150, 105, .12);
+    color: var(--cy-success);
+    border-color: rgba(5, 150, 105, .3);
+}
+
+.cy-state--delayed {
+    background: rgba(2, 132, 199, .12);
+    color: var(--cy-info);
+    border-color: rgba(2, 132, 199, .3);
+}
+
+.cy-state--reserved {
+    background: rgba(14, 165, 233, .14);
+    color: var(--cy-accent-600);
+    border-color: rgba(14, 165, 233, .3);
+}
+
+.cy-state--stale {
+    background: rgba(217, 119, 6, .14);
+    color: var(--cy-warning);
+    border-color: rgba(217, 119, 6, .3);
+}
+
+.cy-state--failed {
+    background: rgba(220, 38, 38, .12);
+    color: var(--cy-danger);
+    border-color: rgba(220, 38, 38, .3);
+}
+
+
+/* ------------------------------------------------------------------
+ *  8) İKON BUTONLAR VE MODAL
+ * ------------------------------------------------------------------ */
+.cy-actions { display: inline-flex; gap: .2rem; }
+
+.cy-btn-icon {
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--cy-text-muted);
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border-radius: .4rem;
+    font-size: .9rem;
+    line-height: 1;
+    transition: background var(--cy-transition), color var(--cy-transition);
+}
+
+.cy-btn-icon:hover { background: var(--cy-surface-soft); color: var(--cy-text); }
+.cy-btn-icon--retry:hover  { background: var(--cy-success); color: #fff; }
+.cy-btn-icon--delete:hover { background: var(--cy-danger);  color: #fff; }
+
+.cy-badges { display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
+
+.cy-badge--soft {
+    background: var(--cy-surface-soft);
+    border: 1px solid var(--cy-border);
+    color: var(--cy-text-muted);
+    padding: .12rem .55rem;
+    border-radius: var(--cy-radius-pill);
+    font-size: .78rem;
+}
+
+.cy-badge--soft code { background: transparent; padding: 0; }
+
+
+/* ------------------------------------------------------------------
+ *  9) BUTON VARYANTI VE TOAST
+ * ------------------------------------------------------------------
+ *  Marka kalıbındaki .cy-btn yalnızca ORTAK davranışı tanımlar; zemini
+ *  varyantlar verir. Varyantsız kullanılan bir .cy-btn ("Kapat",
+ *  "Bayatları serbest bırak") zeminsiz görünür ve tıklanabilir olduğu
+ *  anlaşılmaz.
+ * ------------------------------------------------------------------ */
+.cy-btn:not([class*="cy-btn--"]) {
+    background: var(--cy-surface);
+    border-color: var(--cy-border);
+    color: var(--cy-text);
+}
+
+.cy-btn:not([class*="cy-btn--"]):hover,
+.cy-btn:not([class*="cy-btn--"]):focus {
+    background: var(--cy-surface-soft);
+    border-color: var(--cy-brand-400);
+    color: var(--cy-brand-600);
+}
+
+.cy-btn:disabled { opacity: .5; cursor: not-allowed; }
+.cy-btn.is-busy  { opacity: .65; cursor: progress; }
+
+.cy-toast-area {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1090;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    max-width: min(340px, calc(100vw - 2rem));
+}
+
+.cy-toast {
+    padding: .7rem 1rem;
+    font-size: .9rem;
+    transition: opacity .3s ease, transform .3s ease;
+}
+
+.cy-toast--out { opacity: 0; transform: translateX(20px); }
+
+
+/* ------------------------------------------------------------------
+ *  10) MOBİL UYUM
+ * ------------------------------------------------------------------
+ *  YAKLAŞIM: dar ekranda tabloyu yatay kaydırmaya zorlamak yerine
+ *  ikincil sütunu GİZLİYORUZ. Gizlenen bilgi kaybolmaz — hepsi detay
+ *  modalında durur.
+ * ------------------------------------------------------------------ */
+@media (max-width: 767.98px) {
+    .cy-stats { gap: .5rem; margin-bottom: 1rem; }
+    .cy-stat { padding: .65rem .75rem; }
+    .cy-stat__value { font-size: 1.2rem; }
+
+    .cy-worker__actions { width: 100%; }
+    .cy-worker__actions .btn,
+    .cy-worker__actions .cy-switch { flex: 1 1 auto; justify-content: center; }
+
+    .cy-log { max-height: 180px; font-size: .74rem; }
+}
+
+@media (max-width: 480px) {
+    .cy-stats { grid-template-columns: repeat(2, 1fr); }
+    .cy-stat--failed { grid-column: 1 / -1; }
+
+    /* Kart iç boşluğunu daraltmak tablolara ~32px kazandırır — dar
+     * telefonda yatay kaydırmayı ortadan kaldıran fark budur. */
+    .cy-card__header,
+    .cy-card__body { padding: .75rem; }
+    .cy-panel { padding: .7rem; }
+
+    .cy-table > thead > tr > th,
+    .cy-table > tbody > tr > td { padding: .5rem .35rem; }
+
+    /* Kuyruk tablosunda "#" sütununu gizle; detayda zaten var. */
+    .cy-jobs th:nth-child(1),
+    .cy-jobs td:nth-child(1) { display: none; }
+
+    /* Dead-letter'da hata metnini gizle; başlıkta ve detayda durur. */
+    .cy-failed th:nth-child(3),
+    .cy-failed td:nth-child(3) { display: none; }
+
+    .cy-btn-icon { width: 32px; height: 32px; }
+    .cy-state { font-size: .72rem; padding: .12rem .45rem; }
+}
