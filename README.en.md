@@ -47,7 +47,7 @@
 ### What can you try in 60 seconds?
 
 | # | Try this | What happens behind the scenes? |
-|:-:|----------|---------------------------------|
+|---|----------|---------------------------------|
 | **1** | Press **▶ Worker'ı çalıştır** (run the worker) | **One** job is taken from the queue, executed and written to the log. Thanks to `SELECT … FOR UPDATE SKIP LOCKED`, two workers can never grab the same job |
 | **2** | Look at the **Bayat rezerve: 1** (stale reservation) counter | That job *looks* like it's being processed, but the worker holding it **crashed**. Its `reserved_at` is older than `RESERVE_TTL`, so it will be reclaimed automatically |
 | **3** | Press **Bayatları serbest bırak** (release stale) | The visibility timeout, run by hand. Normally you never need this — the mechanism works on its own |

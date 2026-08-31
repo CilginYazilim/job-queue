@@ -47,7 +47,7 @@
 ### Demoda 60 saniyede neleri deneyebilirsiniz?
 
 | # | Şunu deneyin | Perde arkasında ne oluyor? |
-|:-:|--------------|----------------------------|
+|---|--------------|----------------------------|
 | **1** | **▶ Worker'ı çalıştır** düğmesine basın | Kuyruktan **tek** iş alınır, çalıştırılır ve günlüğe düşer. `SELECT … FOR UPDATE SKIP LOCKED` sayesinde iki worker aynı işi asla alamaz |
 | **2** | Sayaç şeridindeki **Bayat rezerve: 1** kutusuna bakın | O iş "işleniyor" görünüyor ama onu alan worker **çökmüş**. `reserved_at` alanı `RESERVE_TTL`'den eski; iş bir sonraki turda otomatik geri alınır |
 | **3** | **Bayatları serbest bırak** düğmesine basın | Görünürlük zaman aşımının elle çalıştırılmış hâli. Normalde buna gerek yoktur — mekanizma kendiliğinden işler |
