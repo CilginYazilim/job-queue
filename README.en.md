@@ -334,6 +334,12 @@ cd job-queue
 mysql -u root -p < cy_queue.sql
 ```
 
+> **Optional — your own database credentials:** run
+> `cp .env.example .env` (Windows: `copy .env.example .env`) and fill in the
+> `DB_*` lines. It runs without the file too; the defaults match a local XAMPP
+> install (`root`, empty password). `.env` is in `.gitignore`, so your password
+> never reaches the repository.
+
 **3 — Open the UI**
 
 ```bash
@@ -463,7 +469,7 @@ There's an extra reason here: **the worker is a separate process** reading the s
 cp system/config.local.php.example system/config.local.php
 ```
 
-Precedence: **`config.local.php` → environment variable → local default.**
+Precedence: **`config.local.php` → `.env` → environment variable → local default.**
 
 ---
 
@@ -544,6 +550,7 @@ Enabled **automatically** if the user's OS is in dark mode. To force it: `<html 
 ```
 job-queue/
 ├── index.php                 → UI. Does NOT touch the database; three cards + one modal.
+├── .env.example              → Database credentials (optional) — in .gitignore
 ├── cy_queue.sql              → Schema + 13 jobs + 4 dead-letter records (NOW() ± INTERVAL)
 ├── .htaccess                 → No directory listing, .sql/.md denied, bin/ denied
 │

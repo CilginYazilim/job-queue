@@ -25,6 +25,14 @@ sürüm numaralandırması [Semantic Versioning](https://semver.org/lang/tr/) ku
   aynı sözleşmeyi taşır (değer ya da `false`), böylece mevcut `?:` ve
   `!== false` kalıplarının hiçbirine dokunulmadı.
 
+  README'ler (TR + EN) buna göre elden geçirildi:
+  kurulum adımlarına `.env` basamağı, dosya yapısı ağacına `.env.example`,
+  ayrıntılı bir "Ortam değişkenleri" bölümü ve tüm değişkenlerin tablosu
+  eklendi. Öncelik zincirini anlatan satırlar da düzeltildi — `.env`
+  eklendikten sonra eski zincir (`config.local.php → ortam değişkeni →
+  varsayılan`) artık eksik kalıyordu; yani belge, kodun yaptığı işi
+  yanlış anlatıyordu.
+
 ### Değiştirildi
 
 - **Depo adı `PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker`

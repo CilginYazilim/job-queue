@@ -336,6 +336,12 @@ cd job-queue
 mysql -u root -p < cy_queue.sql
 ```
 
+> **İsteğe bağlı — kendi veritabanı bilgileriniz:**
+> `cp .env.example .env` (Windows: `copy .env.example .env`) deyip `DB_*`
+> satırlarını doldurun. Bu dosya olmadan da çalışır; varsayılanlar yerel bir
+> XAMPP kurulumuna (`root`, boş parola) göredir. `.env` `.gitignore`
+> içindedir — parolanız depoya gitmez.
+
 **3 — Arayüzü açın**
 
 ```bash
@@ -468,7 +474,7 @@ cp system/config.local.php.example system/config.local.php
 # sonra dört satırı doldurun
 ```
 
-Öncelik sırası: **`config.local.php` → ortam değişkeni → yerel varsayılan.**
+Öncelik sırası: **`config.local.php` → `.env` → ortam değişkeni → yerel varsayılan.**
 
 ---
 
@@ -549,6 +555,7 @@ Kullanıcının işletim sistemi koyu temadaysa **otomatik** devreye girer. Zorl
 ```
 job-queue/
 ├── index.php                 → Arayüz. Veritabanına DOKUNMAZ; üç kart + bir modal.
+├── .env.example              → Veritabanı bilgileri (isteğe bağlı) — .gitignore içinde
 ├── cy_queue.sql              → Şema + 13 iş + 4 dead-letter kaydı (NOW() ± INTERVAL)
 ├── .htaccess                 → Dizin listeleme kapalı, .sql/.md kapalı, bin/ kapalı
 │
