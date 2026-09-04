@@ -16,7 +16,7 @@
 
 **🇹🇷 Türkçe** · [🇬🇧 English](README.en.md)
 
-[**▶ Canlı Demo**](https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker-main/) · [Kaynak Kütüphanesi](https://cilginyazilim.com/kutuphane/php-job-queue) · [cilginyazilim.com](https://cilginyazilim.com)
+[**▶ Canlı Demo**](https://cilginyazilim.com/kutuphane/uygulama/job-queue/) · [Kaynak Kütüphanesi](https://cilginyazilim.com/kutuphane/php-job-queue) · [cilginyazilim.com](https://cilginyazilim.com)
 
 </div>
 
@@ -28,13 +28,13 @@
 
 **Kurulum yok, kayıt yok, indirme yok — tarayıcınızdan 3 saniyede deneyin.**
 
-<a href="https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker-main/"><img src="https://img.shields.io/badge/CANLI_DEMOYU_A%C3%87-0b5cb5?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=061321" alt="Canlı Demoyu Aç" height="42"></a>
+<a href="https://cilginyazilim.com/kutuphane/uygulama/job-queue/"><img src="https://img.shields.io/badge/CANLI_DEMOYU_A%C3%87-0b5cb5?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=061321" alt="Canlı Demoyu Aç" height="42"></a>
 <a href="https://cilginyazilim.com/kutuphane/php-job-queue"><img src="https://img.shields.io/badge/KAYNAK_KODU_%C4%B0NCELE-0ea5e9?style=for-the-badge&logo=readthedocs&logoColor=white&labelColor=061321" alt="Kaynak Kodu İncele" height="42"></a>
-<a href="https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/archive/refs/heads/main.zip"><img src="https://img.shields.io/badge/ZIP_%C4%B0ND%C4%B0R-16a34a?style=for-the-badge&logo=github&logoColor=white&labelColor=061321" alt="ZIP İndir" height="42"></a>
+<a href="https://github.com/CilginYazilim/job-queue/archive/refs/heads/main.zip"><img src="https://img.shields.io/badge/ZIP_%C4%B0ND%C4%B0R-16a34a?style=for-the-badge&logo=github&logoColor=white&labelColor=061321" alt="ZIP İndir" height="42"></a>
 
 <br><br>
 
-<a href="https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker-main/" title="Canlı demoyu açmak için tıklayın">
+<a href="https://cilginyazilim.com/kutuphane/uygulama/job-queue/" title="Canlı demoyu açmak için tıklayın">
   <img src="docs/screenshots/01-kuyruk.png" alt="İş kuyruğu canlı demo önizlemesi" width="860">
 </a>
 
@@ -310,7 +310,7 @@ Demodaki dead-letter kayıtları bilerek farklı hata türleri taşır: geçici 
 
 ## Kurulum
 
-> Sadece görmek istiyorsanız kurulum gerekmez → [**Canlı Demoyu açın**](https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker-main/). Aşağıdaki adımlar projeyi kendi bilgisayarınızda çalıştırmak içindir (~2 dakika).
+> Sadece görmek istiyorsanız kurulum gerekmez → [**Canlı Demoyu açın**](https://cilginyazilim.com/kutuphane/uygulama/job-queue/). Aşağıdaki adımlar projeyi kendi bilgisayarınızda çalıştırmak içindir (~2 dakika).
 
 ### Gereksinimler
 
@@ -324,8 +324,8 @@ Demodaki dead-letter kayıtları bilerek farklı hata türleri taşır: geçici 
 **1 — Projeyi indirin**
 
 ```bash
-git clone https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker.git
-cd PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker
+git clone https://github.com/CilginYazilim/job-queue.git
+cd job-queue
 ```
 
 **2 — Veritabanını oluşturun**
@@ -343,7 +343,7 @@ php -S 127.0.0.1:8000
 ```
 
 XAMPP kullanıyorsanız projeyi `htdocs` altına koyup şu adresi açın:
-`http://localhost/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/`
+`http://localhost/job-queue/`
 
 **4 — Worker'ı ayrı bir terminalde başlatın** *(isteğe bağlı ama asıl olan budur)*
 
@@ -352,6 +352,44 @@ php bin/worker.php
 ```
 
 Arayüzdeki **▶ Worker'ı çalıştır** düğmesi de aynı işi yapar — ama tek adımda ve gözlem için.
+
+### Ortam değişkenleri
+
+Depo kökündeki **`.env`** dosyasına yazın; `system/config.php` dosyasına
+hiç dokunmayın:
+
+```bash
+cp .env.example .env        # Windows: copy .env.example .env
+```
+
+`.env` `.gitignore` içindedir: depoya gönderilmez ve dağıtım (deploy) onu
+**silmez**. `system/config.php` ise depoda durur ve her dağıtımda depodaki
+sürümle değiştirilir — parolayı oraya yazarsanız hem GitHub'a gider hem de
+ilk deploy'da kaybolur.
+
+Dosyayı hiç oluşturmasanız da uygulama çalışır; aşağıdaki varsayılanlar
+yerel bir XAMPP kurulumuna göredir.
+
+**Değer arama sırası:** `.env` → sunucunun gerçek ortam değişkeni
+(Apache `SetEnv`, systemd…) → buradaki varsayılan.
+
+| Değişken | Varsayılan | Ne işe yarar |
+|---|---|---|
+| `DB_HOST` | `127.0.0.1` | Veritabanı sunucusu |
+| `DB_NAME` | `cy_queue` | Veritabanı adı |
+| `DB_USER` | `root` | Kullanıcı |
+| `DB_PASS` | *(boş)* | Şifre — **koda yazmayın** |
+| `APP_TIMEZONE` | `Europe/Istanbul` | PHP'nin saat dilimi |
+| `APP_DEBUG` | *ortamdan* | Hataların ekrana basılıp basılmayacağı |
+
+**`APP_TIMEZONE` neden var?** XAMPP'ın `php.ini` dosyasındaki
+`date.timezone`, MySQL'in kullandığı sistem diliminden farklı olabilir.
+Test makinesinde PHP `Europe/Berlin`, MySQL `Europe/Istanbul`
+kullanıyordu; aynı anı anlatan iki satır bir saat farklı görünüyordu.
+Zaman **hesapları** SQL tarafında yapıldığı için doğruydu, ama ekrana
+basılan saat kayıyordu. Artık dilim açıkça sabitleniyor — sunucunuz başka
+bir bölgedeyse bu değişkeni tanımlamanız yeterli, koda dokunmayın.
+
 
 ---
 
@@ -882,14 +920,14 @@ Düğme demoda iki iş görür: kuyruğun davranışını adım adım izletmek, 
 
 **Bu proje herkese açıktır — dilediğiniz geliştirmeyle katkı sağlayabilirsiniz.**
 
-📦 **Depo:** [github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker](https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker)
+📦 **Depo:** [github.com/CilginYazilim/job-queue](https://github.com/CilginYazilim/job-queue)
 
 | Nasıl katkı sağlarım? | Nereden |
 |----------------------|---------|
-| 🐛 Hata bildir | [Issues](https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/issues) |
-| 💡 Özellik öner | [Issues](https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/issues) |
-| 🔧 Kod gönder | [Pull Requests](https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/pulls) |
-| ❓ Soru sor | [Discussions](https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/discussions) |
+| 🐛 Hata bildir | [Issues](https://github.com/CilginYazilim/job-queue/issues) |
+| 💡 Özellik öner | [Issues](https://github.com/CilginYazilim/job-queue/issues) |
+| 🔧 Kod gönder | [Pull Requests](https://github.com/CilginYazilim/job-queue/pulls) |
+| ❓ Soru sor | [Discussions](https://github.com/CilginYazilim/job-queue/discussions) |
 
 ### Katkı ölçütleri
 
@@ -909,7 +947,7 @@ Düğme demoda iki iş görür: kuyruğun davranışını adım adım izletmek, 
 
 ### Önce bir deneyin
 
-<a href="https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker-main/"><img src="https://img.shields.io/badge/CANLI_DEMOYU_A%C3%87-0b5cb5?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=061321" alt="Canlı Demoyu Aç" height="42"></a>
+<a href="https://cilginyazilim.com/kutuphane/uygulama/job-queue/"><img src="https://img.shields.io/badge/CANLI_DEMOYU_A%C3%87-0b5cb5?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=061321" alt="Canlı Demoyu Aç" height="42"></a>
 <a href="https://cilginyazilim.com/kutuphane"><img src="https://img.shields.io/badge/D%C4%B0%C4%9EER_%C3%96RNEKLER-061321?style=for-the-badge&logo=bookstack&logoColor=white&labelColor=061321" alt="Diğer Örnekler" height="42"></a>
 
 **[cilginyazilim.com](https://cilginyazilim.com)** tarafından ❤ ile geliştirildi

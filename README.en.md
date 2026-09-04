@@ -16,7 +16,7 @@
 
 [🇹🇷 Türkçe](README.md) · **🇬🇧 English**
 
-[**▶ Live Demo**](https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker-main/) · [Source Library](https://cilginyazilim.com/kutuphane/php-job-queue) · [cilginyazilim.com](https://cilginyazilim.com)
+[**▶ Live Demo**](https://cilginyazilim.com/kutuphane/uygulama/job-queue/) · [Source Library](https://cilginyazilim.com/kutuphane/php-job-queue) · [cilginyazilim.com](https://cilginyazilim.com)
 
 </div>
 
@@ -28,13 +28,13 @@
 
 **No setup, no signup, no download — try it in your browser in 3 seconds.**
 
-<a href="https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker-main/"><img src="https://img.shields.io/badge/OPEN_LIVE_DEMO-0b5cb5?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=061321" alt="Open Live Demo" height="42"></a>
+<a href="https://cilginyazilim.com/kutuphane/uygulama/job-queue/"><img src="https://img.shields.io/badge/OPEN_LIVE_DEMO-0b5cb5?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=061321" alt="Open Live Demo" height="42"></a>
 <a href="https://cilginyazilim.com/kutuphane/php-job-queue"><img src="https://img.shields.io/badge/BROWSE_SOURCE-0ea5e9?style=for-the-badge&logo=readthedocs&logoColor=white&labelColor=061321" alt="Browse Source" height="42"></a>
-<a href="https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/archive/refs/heads/main.zip"><img src="https://img.shields.io/badge/DOWNLOAD_ZIP-16a34a?style=for-the-badge&logo=github&logoColor=white&labelColor=061321" alt="Download ZIP" height="42"></a>
+<a href="https://github.com/CilginYazilim/job-queue/archive/refs/heads/main.zip"><img src="https://img.shields.io/badge/DOWNLOAD_ZIP-16a34a?style=for-the-badge&logo=github&logoColor=white&labelColor=061321" alt="Download ZIP" height="42"></a>
 
 <br><br>
 
-<a href="https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker-main/" title="Click to open the live demo">
+<a href="https://cilginyazilim.com/kutuphane/uygulama/job-queue/" title="Click to open the live demo">
   <img src="docs/screenshots/01-kuyruk.png" alt="Job queue live demo preview" width="860">
 </a>
 
@@ -310,7 +310,7 @@ The demo's dead-letter records deliberately carry different failure kinds: a tra
 
 ## Installation
 
-> If you only want to look at it, no setup is needed → [**open the Live Demo**](https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker-main/). The steps below are for running it on your own machine (~2 minutes).
+> If you only want to look at it, no setup is needed → [**open the Live Demo**](https://cilginyazilim.com/kutuphane/uygulama/job-queue/). The steps below are for running it on your own machine (~2 minutes).
 
 ### Requirements
 
@@ -324,8 +324,8 @@ The demo's dead-letter records deliberately carry different failure kinds: a tra
 **1 — Download the project**
 
 ```bash
-git clone https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker.git
-cd PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker
+git clone https://github.com/CilginYazilim/job-queue.git
+cd job-queue
 ```
 
 **2 — Create the database**
@@ -347,6 +347,45 @@ php bin/worker.php
 ```
 
 The **▶ Worker'ı çalıştır** button in the UI does the same thing — one step at a time, for observation.
+
+### Environment variables
+
+Put them in a **`.env`** file at the repository root and never touch
+`system/config.php`:
+
+```bash
+cp .env.example .env        # Windows: copy .env.example .env
+```
+
+`.env` is in `.gitignore`: it never reaches the repository and a deploy
+does **not** delete it. `system/config.php`, by contrast, lives in the
+repository and is replaced by the repository's copy on every deploy — a
+password written there both ships to GitHub and disappears on the first
+deploy.
+
+The app runs without the file too; the defaults below match a local XAMPP
+install.
+
+**Lookup order:** `.env` → the real environment variable (Apache `SetEnv`,
+systemd…) → the default shown here.
+
+| Variable | Default | What it does |
+|---|---|---|
+| `DB_HOST` | `127.0.0.1` | Database server |
+| `DB_NAME` | `cy_queue` | Database name |
+| `DB_USER` | `root` | User |
+| `DB_PASS` | *(empty)* | Password — **never hard-code it** |
+| `APP_TIMEZONE` | `Europe/Istanbul` | PHP timezone |
+| `APP_DEBUG` | *from environment* | Whether errors are printed to the page |
+
+**Why `APP_TIMEZONE`?** The `date.timezone` in XAMPP's `php.ini` can
+differ from the system timezone MySQL uses. On the test machine PHP was
+`Europe/Berlin` while MySQL was `Europe/Istanbul`, so two lines describing
+the same instant were an hour apart. The time **arithmetic** is done in
+SQL and was always correct — what drifted was the clock PHP printed. The
+timezone is now pinned explicitly; if your server is in another region,
+set this variable instead of touching the code.
+
 
 ---
 
@@ -876,14 +915,14 @@ In the demo the button serves two purposes: letting you step through the queue's
 
 **This project is open to everyone — contribute any improvement you like.**
 
-📦 **Repository:** [github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker](https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker)
+📦 **Repository:** [github.com/CilginYazilim/job-queue](https://github.com/CilginYazilim/job-queue)
 
 | How can I contribute? | Where |
 |-----------------------|-------|
-| 🐛 Report a bug | [Issues](https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/issues) |
-| 💡 Suggest a feature | [Issues](https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/issues) |
-| 🔧 Send code | [Pull Requests](https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/pulls) |
-| ❓ Ask a question | [Discussions](https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/discussions) |
+| 🐛 Report a bug | [Issues](https://github.com/CilginYazilim/job-queue/issues) |
+| 💡 Suggest a feature | [Issues](https://github.com/CilginYazilim/job-queue/issues) |
+| 🔧 Send code | [Pull Requests](https://github.com/CilginYazilim/job-queue/pulls) |
+| ❓ Ask a question | [Discussions](https://github.com/CilginYazilim/job-queue/discussions) |
 
 ### Contribution criteria
 
@@ -903,7 +942,7 @@ In the demo the button serves two purposes: letting you step through the queue's
 
 ### Try it first
 
-<a href="https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker-main/"><img src="https://img.shields.io/badge/OPEN_LIVE_DEMO-0b5cb5?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=061321" alt="Open Live Demo" height="42"></a>
+<a href="https://cilginyazilim.com/kutuphane/uygulama/job-queue/"><img src="https://img.shields.io/badge/OPEN_LIVE_DEMO-0b5cb5?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=061321" alt="Open Live Demo" height="42"></a>
 <a href="https://cilginyazilim.com/kutuphane"><img src="https://img.shields.io/badge/OTHER_EXAMPLES-061321?style=for-the-badge&logo=bookstack&logoColor=white&labelColor=061321" alt="Other Examples" height="42"></a>
 
 Built with ❤ by **[cilginyazilim.com](https://cilginyazilim.com)**

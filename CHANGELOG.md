@@ -5,6 +5,72 @@ sürüm numaralandırması [Semantic Versioning](https://semver.org/lang/tr/) ku
 
 ---
 
+## [1.1.0] — 2026-09-04
+
+### Eklendi
+
+- **Veritabanı bilgileri artık `.env` dosyasından okunabiliyor.**
+  Daha önce tek yol `system/config.php` dosyasını elle düzenlemekti — ve
+  o dosya depoda durur: yazdığınız parola hem GitHub'a gider hem de ilk
+  dağıtımda depodaki sürümle değiştirilerek kaybolur.
+
+  Depo köküne `.env.example` eklendi; kopyalayıp `.env` yapmanız yeterli.
+  `.env` zaten `.gitignore` içindeydi.
+
+  Değer arama sırası: `.env` → sunucunun gerçek ortam değişkeni → bu
+  dosyadaki varsayılan. (`config.local.php` destekleyen depolarda o hâlâ
+  en önde gelir; eski kurulumlar olduğu gibi çalışır.)
+
+  Uygulama kodu değişmedi: `cy_env()` yardımcısı bilerek `getenv()` ile
+  aynı sözleşmeyi taşır (değer ya da `false`), böylece mevcut `?:` ve
+  `!== false` kalıplarının hiçbirine dokunulmadı.
+
+### Değiştirildi
+
+- **Depo adı `PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker`
+  yerine `job-queue` oldu.** Uzun ad adres satırında okunmuyordu ve
+  klasör adıyla eşleşmediği için vitrindeki bağlantılar kırılıyordu.
+  Klon, ZIP, issue ve yerel kurulum adresleri buna göre güncellendi.
+  GitHub eski adresi yenisine yönlendirir; eski bağlantılar kırılmaz.
+
+- **Zaman dilimi artık açıkça sabitleniyor.** `system/config.php` içinde
+  `APP_TIMEZONE` (varsayılan `Europe/Istanbul`) tanımlanıp
+  `date_default_timezone_set()` çağrılıyor; ortam değişkeniyle
+  değiştirilebilir.
+
+  **Ölçülen sorun:** XAMPP'ın `php.ini` dosyasındaki `date.timezone`,
+  MySQL'in kullandığı sistem diliminden farklı olabiliyor. Test
+  makinesinde PHP `Europe/Berlin`, MySQL ise `Europe/Istanbul`
+  kullanıyordu ve aynı anı anlatan iki satır bir saat farklı görünüyordu:
+
+  ```
+  worker günlüğü (PHP date)  : 14:03:17
+  veritabanı  (MySQL NOW())  : 15:03:17
+  ```
+
+  Zaman **aritmetiği** bu depoda bilinçli olarak SQL tarafında yapıldığı
+  için (`NOW()`, `INTERVAL`, `TIMESTAMPDIFF`) hesaplar zaten doğruydu;
+  kayan şey PHP'nin ekrana ve günlüğe bastığı saatti. Ama demoyu deneyen
+  biri için bu, "sistem yanlış çalışıyor" gibi görünüyordu.
+
+### Düzeltildi
+
+- **"Canlı Demo" bağlantısı kırıktı.** README'lerdeki en görünür düğme
+  `…/kutuphane/uygulama/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker-main/` adresine gidiyordu; o adres **404**
+  döndürüyordu. Vitrindeki gerçek adres `…/kutuphane/uygulama/job-queue/`.
+  Her iki dildeki README'de tüm geçtiği yerler düzeltildi ve adreslerin
+  200 döndüğü doğrulandı.
+
+- **Veritabanı adı çakışması belgelendi.** Bu depo `cy_queue` veritabanını
+  kullanır; `queue-worker-system` deposu da aynı adı kullanıyordu ve iki
+  örneği yan yana kuran biri ikinci içe aktarmada birincinin `jobs`
+  tablosunu eziyordu. Belirti, `status` isteğinin
+  `SQLSTATE[42S22] Unknown column 'type'` ile 500 dönmesiydi.
+  Çakışma `queue-worker-system` tarafında `cy_queue_worker` adına geçilerek
+  giderildi; bu deponun şeması ve adı değişmedi.
+
+---
+
 ## [1.0.0] — 2026-08-30
 
 İlk genel sürüm. Kuyruk motoru, worker, arayüz ve belgelendirme üretime hazır durumda.
@@ -83,4 +149,4 @@ sürüm numaralandırması [Semantic Versioning](https://semver.org/lang/tr/) ku
 - `.htaccess`: dizin listeleme kapalı; `.sql`, `.md`, `.json`, `.log`, `.ini`, `.bak` kapalı — `README*.md` bilinçli istisnadır. `bin/worker.php` ayrıca kapalı. `DirectoryIndex index.php` eklendi.
 - `system/.htaccess` **beyaz listedir**: yalnızca `ajax.php` dışarıya açıktır.
 
-[1.0.0]: https://github.com/CilginYazilim/PHP-MySQL-Job-Queue-Is-Kuyrugu-PDO-Skip-Locked-Worker/releases/tag/v1.0.0
+[1.0.0]: https://github.com/CilginYazilim/job-queue/releases/tag/v1.0.0
